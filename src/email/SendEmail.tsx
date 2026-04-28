@@ -1,6 +1,9 @@
-import Message, { type ContactEmailPayload } from './Message'
-
-export type ContactMessagePayload = ContactEmailPayload
+export type ContactMessagePayload = {
+  name: string
+  email: string
+  subject: string
+  message: string
+}
 
 const CONTACT_API_URL = import.meta.env.VITE_CONTACT_API_URL as string | undefined
 
@@ -11,13 +14,10 @@ function wait(ms: number) {
 }
 
 export async function sendContactMessage(payload: ContactMessagePayload) {
-  const emailTemplate = <Message {...payload} />
-
   if (!CONTACT_API_URL) {
     await wait(1200)
     return {
       ok: true,
-      emailTemplate,
     }
   }
 
@@ -35,6 +35,5 @@ export async function sendContactMessage(payload: ContactMessagePayload) {
 
   return {
     ok: true,
-    emailTemplate,
   }
 }

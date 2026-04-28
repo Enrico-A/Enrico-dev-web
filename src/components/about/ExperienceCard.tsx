@@ -1,9 +1,11 @@
+import { useLanguage } from '../../i18n/useLanguage'
+
 type Experience = {
   context: string
   role: string
   description: string
-  technologies: string[]
-  highlights: string[]
+  technologies: readonly string[]
+  highlights: readonly string[]
 }
 
 type ExperienceCardProps = {
@@ -11,6 +13,8 @@ type ExperienceCardProps = {
 }
 
 function ExperienceCard({ experience }: ExperienceCardProps) {
+  const { t } = useLanguage()
+
   return (
     <article className="card experience-card">
       <div className="experience-card__header">
@@ -25,7 +29,7 @@ function ExperienceCard({ experience }: ExperienceCardProps) {
         ))}
       </ul>
 
-      <div className="experience-card__tech" aria-label={`Tecnologie ${experience.context}`}>
+      <div className="experience-card__tech" aria-label={`${t.common.technologies} ${experience.context}`}>
         {experience.technologies.map((technology) => (
           <span className="badge" key={technology}>
             {technology}

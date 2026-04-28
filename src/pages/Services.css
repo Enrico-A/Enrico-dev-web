@@ -11,14 +11,14 @@
 .services-hero h1 {
   max-width: 900px;
   margin-block: var(--space-5);
-  font-size: clamp(2.6rem, 6vw, 5rem);
-  letter-spacing: -0.04em;
+  font-size: 4.5rem;
+  letter-spacing: 0;
 }
 
 .services-hero p {
   max-width: 760px;
   margin-bottom: var(--space-6);
-  font-size: clamp(1.05rem, 2vw, 1.22rem);
+  font-size: 1.2rem;
 }
 
 .services-kicker {
@@ -27,7 +27,7 @@
   color: var(--color-orange-accent);
   font-size: 0.85rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
@@ -98,7 +98,7 @@
 
 .process-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
   gap: var(--space-4);
 }
 
@@ -148,16 +148,9 @@
   max-width: 720px;
 }
 
-@media (max-width: 980px) {
-  .process-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
 @media (max-width: 760px) {
   .services-grid,
-  .services-fit__grid,
-  .process-grid {
+  .services-fit__grid {
     grid-template-columns: 1fr;
   }
 
@@ -178,5 +171,11 @@
 
   .services-cta {
     padding: var(--space-5);
+  }
+
+  .services-hero .button,
+  .services-cta,
+  .services-cta .button {
+    width: 100%;
   }
 }

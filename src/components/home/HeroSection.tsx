@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom'
+import { useLanguage } from '../../i18n/useLanguage'
 
 const primaryStack = ['React', 'TypeScript', '.NET', 'Angular', 'PostgreSQL']
 
 function HeroSection() {
+  const { t } = useLanguage()
+
   return (
     <section className="home-hero section">
       <div className="home-hero__content">
-        <div className="home-hero__badges" aria-label="Stack principale">
+        <div className="home-hero__badges" aria-label={t.home.hero.stackLabel}>
           {primaryStack.map((technology) => (
             <span className="badge" key={technology}>
               {technology}
@@ -14,18 +17,15 @@ function HeroSection() {
           ))}
         </div>
 
-        <h1>Full-stack developer per web app solide, scalabili e curate.</h1>
-        <p className="home-hero__subtitle">
-          Progetto e sviluppo applicazioni web, gestionali, CRM e integrazioni
-          frontend/backend con un approccio pragmatico, moderno e orientato al risultato.
-        </p>
+        <h1>{t.home.hero.title}</h1>
+        <p className="home-hero__subtitle">{t.home.hero.subtitle}</p>
 
         <div className="home-hero__actions">
           <Link to="/contact" className="button">
-            Contattami
+            {t.common.contactMe}
           </Link>
           <Link to="/portfolio" className="button button--secondary">
-            Vedi progetti
+            {t.common.viewProjects}
           </Link>
         </div>
       </div>

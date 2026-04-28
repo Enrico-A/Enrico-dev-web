@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { sendContactMessage } from '../email/SendEmail'
+import { useLanguage } from '../i18n/useLanguage'
 import './Contact.css'
 
 type ContactFormValues = {
@@ -10,9 +11,8 @@ type ContactFormValues = {
   privacy: boolean
 }
 
-const subject = 'Nuova richiesta dal sito web'
-
 function Contact() {
+  const { t } = useLanguage()
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
   const {
@@ -36,7 +36,7 @@ function Contact() {
       await sendContactMessage({
         name: values.name,
         email: values.email,
-        subject,
+        subject: t.contact.emailSubject,
         message: values.message,
       })
       setSubmitStatus('success')
@@ -50,89 +50,101 @@ function Contact() {
     <>
       <section className="section contact-hero">
         <div className="contact-hero__content">
-          <span className="contact-kicker">Contact</span>
-          <h1>Parliamo del tuo progetto web.</h1>
-          <p>
-            Hai bisogno di una web app, un gestionale, un CRM o un supporto tecnico
-            frontend/backend? Scrivimi qualche dettaglio e ti ricontattero.
-          </p>
+          <span className="contact-kicker">{t.contact.hero.kicker}</span>
+          <h1>{t.contact.hero.title}</h1>
+          <p>{t.contact.hero.body}</p>
         </div>
       </section>
 
       <section className="section contact-content">
-        <aside className="contact-info card" aria-label="Informazioni di contatto">
-          <span className="contact-kicker">Info</span>
-          <h2>Disponibile per collaborazioni freelance</h2>
+        <aside className="contact-info card" aria-label={t.contact.info.ariaLabel}>
+          <span className="contact-kicker">{t.contact.info.kicker}</span>
+          <h2>{t.contact.info.title}</h2>
           <dl className="contact-info__list">
             <div>
-              <dt>Email</dt>
+              <dt>{t.contact.info.email}</dt>
               <dd>
                 <a href="mailto:arfini.enrico@gmail.com">arfini.enrico@gmail.com</a>
               </dd>
             </div>
             <div>
-              <dt>Disponibilita</dt>
-              <dd>Progetti freelance, consulenza e supporto tecnico.</dd>
+              <dt>{t.contact.info.availability}</dt>
+              <dd>{t.contact.info.availabilityText}</dd>
             </div>
             <div>
-              <dt>Localita</dt>
-              <dd>Italia / remoto</dd>
+              <dt>{t.contact.info.location}</dt>
+              <dd>{t.contact.info.locationText}</dd>
             </div>
           </dl>
         </aside>
 
         <form className="contact-form card" onSubmit={handleSubmit(onSubmit)} noValidate>
           <div className="contact-form__field">
-            <label htmlFor="name">Nome</label>
+            <label htmlFor="name">{t.contact.form.name}</label>
             <input
               id="name"
               type="text"
               autoComplete="name"
               aria-invalid={errors.name ? 'true' : 'false'}
+              aria-describedby={errors.name ? 'name-error' : undefined}
               {...register('name', {
-                required: 'Il nome e obbligatorio.',
+                required: t.contact.form.validation.nameRequired,
                 minLength: {
                   value: 2,
-                  message: 'Il nome deve contenere almeno 2 caratteri.',
+                  message: t.contact.form.validation.nameMin,
                 },
               })}
             />
-            {errors.name && <p className="contact-form__error">{errors.name.message}</p>}
+            {errors.name && (
+              <p id="name-error" className="contact-form__error" role="alert">
+                {errors.name.message}
+              </p>
+            )}
           </div>
 
           <div className="contact-form__field">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{t.contact.form.email}</label>
             <input
               id="email"
               type="email"
               autoComplete="email"
               aria-invalid={errors.email ? 'true' : 'false'}
+              aria-describedby={errors.email ? 'email-error' : undefined}
               {...register('email', {
-                required: 'L email e obbligatoria.',
+                required: t.contact.form.validation.emailRequired,
                 pattern: {
                   value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: 'Inserisci un indirizzo email valido.',
+                  message: t.contact.form.validation.emailPattern,
                 },
               })}
             />
-            {errors.email && <p className="contact-form__error">{errors.email.message}</p>}
+            {errors.email && (
+              <p id="email-error" className="contact-form__error" role="alert">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           <div className="contact-form__field">
-            <label htmlFor="message">Messaggio</label>
+            <label htmlFor="message">{t.contact.form.message}</label>
             <textarea
               id="message"
               rows={7}
               aria-invalid={errors.message ? 'true' : 'false'}
+              aria-describedby={errors.message ? 'message-error' : undefined}
               {...register('message', {
-                required: 'Il messaggio e obbligatorio.',
+                required: t.contact.form.validation.messageRequired,
                 minLength: {
                   value: 10,
-                  message: 'Il messaggio deve contenere almeno 10 caratteri.',
+                  message: t.contact.form.validation.messageMin,
                 },
               })}
             />
-            {errors.message && <p className="contact-form__error">{errors.message.message}</p>}
+            {errors.message && (
+              <p id="message-error" className="contact-form__error" role="alert">
+                {errors.message.message}
+              </p>
+            )}
           </div>
 
           <div className="contact-form__privacy">
@@ -140,29 +152,32 @@ function Contact() {
               id="privacy"
               type="checkbox"
               aria-invalid={errors.privacy ? 'true' : 'false'}
+              aria-describedby={errors.privacy ? 'privacy-error' : undefined}
               {...register('privacy', {
-                required: 'Devi accettare per inviare la richiesta.',
+                required: t.contact.form.validation.privacyRequired,
               })}
             />
-            <label htmlFor="privacy">
-              Accetto di essere ricontattato in merito alla mia richiesta.
-            </label>
+            <label htmlFor="privacy">{t.contact.form.privacy}</label>
           </div>
-          {errors.privacy && <p className="contact-form__error">{errors.privacy.message}</p>}
+          {errors.privacy && (
+            <p id="privacy-error" className="contact-form__error" role="alert">
+              {errors.privacy.message}
+            </p>
+          )}
 
           <button type="submit" className="button contact-form__submit" disabled={isSubmitting}>
             {isSubmitting && <span className="contact-form__spinner" aria-hidden="true" />}
-            {isSubmitting ? 'Invio in corso' : 'Invia messaggio'}
+            {isSubmitting ? t.contact.form.submitting : t.contact.form.submit}
           </button>
 
           {submitStatus === 'success' && (
             <p className="contact-form__feedback contact-form__feedback--success" role="status">
-              Messaggio inviato correttamente. Ti ricontattero appena possibile.
+              {t.contact.form.success}
             </p>
           )}
           {submitStatus === 'error' && (
             <p className="contact-form__feedback contact-form__feedback--error" role="alert">
-              Qualcosa non ha funzionato. Riprova tra poco.
+              {t.contact.form.error}
             </p>
           )}
         </form>

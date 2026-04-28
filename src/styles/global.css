@@ -7,6 +7,8 @@
   --color-teal-primary: #0f766e;
   --color-teal-soft: #e0f2ef;
   --color-orange-accent: #f97316;
+  --color-error: #b42318;
+  --color-error-soft: #fee4e2;
   --color-border: #d8dee6;
   --color-focus: #f97316;
 
@@ -56,6 +58,7 @@ body {
   margin: 0;
   color: var(--color-text-secondary);
   background: var(--color-background);
+  overflow-x: clip;
 }
 
 button,
@@ -81,7 +84,11 @@ a:hover {
 }
 
 a:focus-visible,
-button:focus-visible {
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
   outline: 3px solid var(--color-focus);
   outline-offset: 3px;
 }
@@ -102,11 +109,11 @@ h3 {
 
 h1 {
   margin-bottom: var(--space-4);
-  font-size: clamp(2.25rem, 6vw, 4rem);
+  font-size: 3.5rem;
 }
 
 h2 {
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-size: 2.35rem;
 }
 
 .container {
@@ -146,6 +153,7 @@ button.button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: var(--space-2);
   min-height: 44px;
   padding-inline: var(--space-4);
   border-radius: var(--radius-md);
@@ -159,4 +167,64 @@ button.button {
 button.button:hover {
   background: #0b5f59;
   color: #ffffff;
+}
+
+.skip-link {
+  position: fixed;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 100;
+  transform: translateY(-140%);
+  border-radius: var(--radius-md);
+  background: var(--color-text-primary);
+  color: #ffffff;
+  font-weight: 800;
+  padding: var(--space-3) var(--space-4);
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  color: #ffffff;
+}
+
+.eyebrow {
+  margin-bottom: var(--space-3);
+  color: var(--color-orange-accent);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.lead {
+  max-width: 760px;
+  font-size: 1.125rem;
+}
+
+@media (max-width: 760px) {
+  h1 {
+    font-size: 2.6rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  .section,
+  .page-section {
+    width: min(var(--container-width), calc(100% - 24px));
+    padding-block: var(--space-7);
+  }
+
+  .card {
+    padding: var(--space-4);
+  }
+}
+
+@media (max-width: 420px) {
+  h1 {
+    font-size: 2.3rem;
+  }
 }

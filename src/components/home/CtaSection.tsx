@@ -1,18 +1,18 @@
 import { Link } from 'react-router-dom'
+import { useLanguage } from '../../i18n/useLanguage'
 
 function CtaSection() {
+  const { t } = useLanguage()
+
   return (
     <section className="section home-cta">
       <div className="home-cta__content">
-        <span className="section-kicker">Collaboriamo</span>
-        <h2>Hai un progetto web, un gestionale o un'integrazione da realizzare?</h2>
-        <p>
-          Possiamo partire da obiettivi, vincoli tecnici e priorita operative per
-          costruire una soluzione concreta e mantenibile.
-        </p>
+        <span className="section-kicker">{t.home.cta.kicker}</span>
+        <h2>{t.home.cta.title}</h2>
+        <p>{t.home.cta.body}</p>
       </div>
       <Link to="/contact" className="button">
-        Contattami
+        {t.common.contactMe}
       </Link>
     </section>
   )

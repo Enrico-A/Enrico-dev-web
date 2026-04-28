@@ -1,6 +1,6 @@
 type SkillCategory = {
   title: string
-  skills: string[]
+  skills: readonly string[]
 }
 
 type SkillGroupProps = {

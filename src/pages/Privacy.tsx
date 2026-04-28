@@ -1,12 +1,13 @@
+import { useLanguage } from '../i18n/useLanguage'
 
 function Privacy() {
+  const { t } = useLanguage()
+
   return (
     <section className="page-section">
-      <p className="eyebrow">Informativa</p>
-      <h1>Privacy policy</h1>
-      <p className="lead">
-        Pagina predisposta per l'informativa privacy del sito portfolio.
-      </p>
+      <p className="eyebrow">{t.legal.privacy.eyebrow}</p>
+      <h1>{t.legal.privacy.title}</h1>
+      <p className="lead">{t.legal.privacy.body}</p>
     </section>
   )
 }
