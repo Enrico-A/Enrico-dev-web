@@ -1,8 +1,19 @@
+import CtaSection from '../components/home/CtaSection'
+import FeaturedProjects from '../components/home/FeaturedProjects'
+import HeroSection from '../components/home/HeroSection'
+import TechStack from '../components/home/TechStack'
+import ValueSection from '../components/home/ValueSection'
+import './Home.css'
+
 function Home() {
   return (
-    <section className="page-section">
-      <h1>Home</h1>
-    </section>
+    <>
+      <HeroSection />
+      <ValueSection />
+      <TechStack />
+      <FeaturedProjects />
+      <CtaSection />
+    </>
   )
 }
 

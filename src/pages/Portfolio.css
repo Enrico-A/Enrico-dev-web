@@ -1,0 +1,213 @@
+.portfolio-hero {
+  min-height: clamp(420px, calc(68svh - 78px), 600px);
+  display: grid;
+  align-items: center;
+}
+
+.portfolio-hero__content {
+  max-width: 920px;
+}
+
+.portfolio-hero h1 {
+  max-width: 900px;
+  margin-block: var(--space-5);
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  letter-spacing: -0.04em;
+}
+
+.portfolio-hero p {
+  max-width: 760px;
+  margin-bottom: 0;
+  font-size: clamp(1.05rem, 2vw, 1.22rem);
+}
+
+.portfolio-kicker {
+  display: inline-flex;
+  margin-bottom: var(--space-3);
+  color: var(--color-orange-accent);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.portfolio-section {
+  padding-block: var(--space-7);
+}
+
+.portfolio-section__heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-5);
+  margin-bottom: var(--space-6);
+}
+
+.portfolio-section__heading h2 {
+  margin-bottom: 0;
+}
+
+.project-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+.project-filters__button {
+  min-height: 38px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-weight: 700;
+  padding-inline: var(--space-4);
+}
+
+.project-filters__button:hover,
+.project-filters__button--active {
+  border-color: var(--color-teal-primary);
+  background: var(--color-teal-soft);
+  color: var(--color-teal-primary);
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.portfolio-card {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.portfolio-card:hover {
+  border-color: rgba(15, 118, 110, 0.35);
+  transform: translateY(-2px);
+}
+
+.portfolio-card__top,
+.portfolio-card__links {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.portfolio-card__type {
+  color: var(--color-teal-primary);
+  font-weight: 800;
+}
+
+.portfolio-card__status {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  border-radius: 999px;
+  color: var(--color-orange-accent);
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding-inline: var(--space-3);
+}
+
+.portfolio-card h3 {
+  margin-bottom: var(--space-3);
+  font-size: 1.3rem;
+}
+
+.portfolio-card p {
+  margin-bottom: 0;
+}
+
+.portfolio-card__highlights {
+  margin: 0;
+  padding-left: var(--space-5);
+}
+
+.portfolio-card__highlights li {
+  margin-bottom: var(--space-2);
+}
+
+.portfolio-card__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: auto;
+}
+
+.project-card__link {
+  color: var(--color-teal-primary);
+  font-weight: 800;
+}
+
+.project-card__link--disabled {
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.portfolio-cta {
+  margin-block: var(--space-7);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-7);
+}
+
+.portfolio-cta h2 {
+  max-width: 760px;
+  margin-bottom: var(--space-3);
+}
+
+.portfolio-cta p {
+  max-width: 720px;
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .portfolio-section__heading,
+  .portfolio-cta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .project-filters {
+    justify-content: flex-start;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .portfolio-hero {
+    min-height: auto;
+  }
+
+  .portfolio-hero h1 {
+    font-size: 2.45rem;
+  }
+
+  .portfolio-card__top,
+  .portfolio-card__links {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .portfolio-cta {
+    padding: var(--space-5);
+  }
+}
