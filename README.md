@@ -1,73 +1,139 @@
-# React + TypeScript + Vite
+# Enrico Dev Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio personale sviluppato come single page application frontend per presentare profilo, competenze, servizi, progetti e canali di contatto di Enrico Arfini.
 
-Currently, two official plugins are available:
+Il progetto e' pensato per una prima pubblicazione in produzione su Vercel, con build statica generata da Vite.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack
 
-## React Compiler
+- React 19
+- TypeScript
+- Vite
+- React Router
+- React Hook Form
+- Tailwind CSS
+- Font Awesome
+- ESLint
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Funzionalita principali
 
-## Expanding the ESLint configuration
+- Home page con hero, valore professionale, tecnologie e progetti in evidenza.
+- Pagine dedicate a profilo, servizi, portfolio e contatti.
+- Routing client side con pagina 404.
+- Layout responsive.
+- Supporto multilingua tramite dizionario locale.
+- Form contatti predisposto per invio verso una futura API pubblica.
+- Pagine informative privacy e cookie.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Struttura cartelle
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+public/              Asset statici serviti direttamente
+src/assets/          Immagini e asset importati dall'app
+src/components/      Componenti riutilizzabili per le sezioni del sito
+src/email/           Helper frontend e template predisposti per il contatto
+src/i18n/            Traduzioni e contesto lingua
+src/layout/          Header, footer e layout principale
+src/pages/           Pagine della SPA
+src/routes/          Configurazione delle route
+src/styles/          Stili globali condivisi
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Prerequisiti
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Node.js compatibile con le versioni richieste da Vite e React.
+- npm, incluso con Node.js.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Installazione
+
+```bash
+npm install
 ```
+
+## Avvio locale
+
+```bash
+npm run dev
+```
+
+Vite avvia il server di sviluppo e mostra l'URL locale nel terminale.
+
+## Build produzione
+
+```bash
+npm run build
+```
+
+Il comando esegue il controllo TypeScript e genera la build statica nella cartella `dist/`.
+
+## Preview produzione
+
+```bash
+npm run preview
+```
+
+Usare questo comando dopo `npm run build` per verificare localmente la build di produzione.
+
+## Lint
+
+```bash
+npm run lint
+```
+
+Il comando e' disponibile nel progetto e usa la configurazione ESLint presente in `eslint.config.js`.
+
+## Variabili ambiente
+
+Il progetto non richiede variabili ambiente obbligatorie per essere avviato.
+
+Per collegare il form contatti a una API pubblica, creare un file `.env.local` partendo da `.env.example`:
+
+```bash
+VITE_CONTACT_API_URL=https://example.com/api/contact
+```
+
+`VITE_CONTACT_API_URL` deve contenere solo l'URL pubblico dell'endpoint contatti. Le variabili con prefisso `VITE_` vengono esposte al bundle frontend, quindi non devono contenere segreti.
+
+Non inserire nel frontend credenziali email, password, token privati o variabili come `EMAIL_USER`, `EMAIL_PASS`, `SMTP_PASS`, `SMTP_HOST` con dati sensibili.
+
+## Nota su form contatti e API serverless
+
+Il form contatti e' predisposto per chiamare una futura API serverless tramite `VITE_CONTACT_API_URL`.
+
+Le credenziali email devono restare solo lato server, per esempio dentro le variabili ambiente della funzione serverless su Vercel o Netlify. Nodemailer non deve essere usato nel client React e non deve essere incluso nel bundle frontend.
+
+Se `VITE_CONTACT_API_URL` non e' configurata, il form mantiene un comportamento dimostrativo lato client.
+
+## Deploy su Vercel
+
+1. Pubblicare il repository su GitHub.
+2. Aprire Vercel e scegliere `Add New...` > `Project`.
+3. Importare il repository GitHub.
+4. Lasciare il preset framework su `Vite`.
+5. Verificare i comandi:
+   - Install Command: `npm install`
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+6. Aggiungere eventuali variabili ambiente pubbliche, come `VITE_CONTACT_API_URL`, solo se gia' esiste una API contatti.
+7. Avviare il deploy.
+
+Non serve un `vercel.json` per questa configurazione: Vercel riconosce Vite e pubblica la cartella `dist/`.
+
+## Deploy su Netlify
+
+Netlify puo' essere usato come target secondario con una configurazione equivalente:
+
+- Build command: `npm run build`
+- Publish directory: `dist`
+
+Se si aggiunge `VITE_CONTACT_API_URL`, configurarla nelle environment variables del sito Netlify. Anche su Netlify non inserire credenziali email nel frontend.
+
+## Checklist pre-pubblicazione
+
+- Eseguire `npm install` se le dipendenze non sono gia' installate.
+- Eseguire `npm run lint`.
+- Eseguire `npm run build`.
+- Verificare la build con `npm run preview`.
+- Controllare che `.env.local` non venga committato.
+- Configurare `VITE_CONTACT_API_URL` solo se l'endpoint contatti pubblico esiste.
+- Tenere tutte le credenziali email esclusivamente lato server.
