@@ -1,0 +1,81 @@
+.cursor-follower,
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.cursor-follower {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #000000;
+  border-radius: 999px;
+  background: transparent;
+  mix-blend-mode: multiply;
+  transition:
+    width 0.2s ease,
+    height 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    opacity 0.18s ease;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-orange-accent);
+  box-shadow: 0 0 22px rgba(249, 115, 22, 0.28);
+  transition:
+    width 0.2s ease,
+    height 0.2s ease,
+    background 0.2s ease,
+    opacity 0.18s ease;
+}
+
+.cursor-follower--visible,
+.cursor-dot--visible {
+  opacity: 1;
+}
+
+.cursor-follower--interactive {
+  width: 34px;
+  height: 34px;
+  border-color: #000000;
+  background: transparent;
+}
+
+.cursor-dot--interactive {
+  width: 5px;
+  height: 5px;
+  background: var(--color-teal-primary);
+}
+
+.cursor-follower--pressed {
+  width: 19px;
+  height: 19px;
+  background: transparent;
+}
+
+.cursor-dot--pressed {
+  width: 12px;
+  height: 12px;
+}
+
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .custom-cursor-ready,
+  .custom-cursor-ready * {
+    cursor: none;
+  }
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor-follower,
+  .cursor-dot {
+    display: none;
+  }
+}

@@ -84,8 +84,6 @@ function Header() {
     <header className="site-header">
       <div className="site-header__inner container">
         <NavLink to="/" className="brand" aria-label={t.header.homeLabel} onClick={closeMenu}>
-          {/* <img src="/favicon.svg" alt="" className="brand__logo" aria-hidden="true" />
-          <span className="brand__name">Enrico Dev Web</span> */}
           <img src='/src/assets/images/logo.png' alt='enrico-dev-web' width={350} height='auto' />
         </NavLink>
 
