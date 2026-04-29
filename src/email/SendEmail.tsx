@@ -3,25 +3,11 @@ export type ContactMessagePayload = {
   email: string
   subject: string
   message: string
-}
-
-const CONTACT_API_URL = import.meta.env.VITE_CONTACT_API_URL as string | undefined
-
-function wait(ms: number) {
-  return new Promise((resolve) => {
-    window.setTimeout(resolve, ms)
-  })
+  website?: string
 }
 
 export async function sendContactMessage(payload: ContactMessagePayload) {
-  if (!CONTACT_API_URL) {
-    await wait(1200)
-    return {
-      ok: true,
-    }
-  }
-
-  const response = await fetch(CONTACT_API_URL, {
+  const response = await fetch('/api/send-email', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -11,6 +11,7 @@ Il progetto e' pensato per una prima pubblicazione in produzione su Vercel, con 
 - Vite
 - React Router
 - React Hook Form
+- Nodemailer
 - Tailwind CSS
 - Font Awesome
 - ESLint
@@ -22,16 +23,17 @@ Il progetto e' pensato per una prima pubblicazione in produzione su Vercel, con 
 - Routing client side con pagina 404.
 - Layout responsive.
 - Supporto multilingua tramite dizionario locale.
-- Form contatti predisposto per invio verso una futura API pubblica.
+- Form contatti collegato a una API serverless Vercel per invio email.
 - Pagine informative privacy e cookie.
 
 ## Struttura cartelle
 
 ```text
 public/              Asset statici serviti direttamente
+api/                 Vercel Serverless Functions
 src/assets/          Immagini e asset importati dall'app
 src/components/      Componenti riutilizzabili per le sezioni del sito
-src/email/           Helper frontend e template predisposti per il contatto
+src/email/           Helper frontend per inviare il form contatti
 src/i18n/            Traduzioni e contesto lingua
 src/layout/          Header, footer e layout principale
 src/pages/           Pagine della SPA
@@ -84,25 +86,73 @@ Il comando e' disponibile nel progetto e usa la configurazione ESLint presente i
 
 ## Variabili ambiente
 
-Il progetto non richiede variabili ambiente obbligatorie per essere avviato.
+Il frontend non richiede variabili ambiente pubbliche per inviare il form contatti: chiama direttamente `POST /api/send-email`.
 
-Per collegare il form contatti a una API pubblica, creare un file `.env.local` partendo da `.env.example`:
+La serverless function richiede invece queste variabili solo lato server:
 
 ```bash
-VITE_CONTACT_API_URL=https://example.com/api/contact
+EMAIL_USER=
+EMAIL_PASS=
+EMAIL_TO=
 ```
 
-`VITE_CONTACT_API_URL` deve contenere solo l'URL pubblico dell'endpoint contatti. Le variabili con prefisso `VITE_` vengono esposte al bundle frontend, quindi non devono contenere segreti.
+- `EMAIL_USER`: account Gmail usato come mittente tecnico SMTP.
+- `EMAIL_PASS`: Gmail App Password dell'account SMTP.
+- `EMAIL_TO`: indirizzo destinatario dei messaggi del form.
 
-Non inserire nel frontend credenziali email, password, token privati o variabili come `EMAIL_USER`, `EMAIL_PASS`, `SMTP_PASS`, `SMTP_HOST` con dati sensibili.
+Non usare prefissi `VITE_` per queste variabili: le variabili `VITE_*` vengono esposte al bundle frontend. Non inserire credenziali email, password, token privati o valori SMTP dentro `src/`, HTML, CSS o file pubblici.
 
-## Nota su form contatti e API serverless
+## API contatti
 
-Il form contatti e' predisposto per chiamare una futura API serverless tramite `VITE_CONTACT_API_URL`.
+Endpoint:
 
-Le credenziali email devono restare solo lato server, per esempio dentro le variabili ambiente della funzione serverless su Vercel o Netlify. Nodemailer non deve essere usato nel client React e non deve essere incluso nel bundle frontend.
+```text
+POST /api/send-email
+```
 
-Se `VITE_CONTACT_API_URL` non e' configurata, il form mantiene un comportamento dimostrativo lato client.
+Payload JSON:
+
+```json
+{
+  "name": "Nome Cognome",
+  "email": "utente@example.com",
+  "subject": "Oggetto",
+  "message": "Messaggio del form",
+  "website": ""
+}
+```
+
+Risposta positiva:
+
+```json
+{ "success": true, "message": "Messaggio inviato correttamente" }
+```
+
+Risposta di errore:
+
+```json
+{ "success": false, "message": "Messaggio non inviato" }
+```
+
+La function valida i dati lato server, accetta solo `POST`, usa Gmail SMTP con `smtp.gmail.com:587` e non invia dettagli sensibili degli errori SMTP al client. Include anche un campo honeypot anti-spam (`website`) e un rate limit in memoria di 5 richieste ogni 15 minuti per IP.
+
+Il rate limit in memoria e' una protezione base: nelle serverless functions puo' azzerarsi tra cold start o istanze diverse. Per produzione ad alto traffico, aggiungere Vercel Firewall, rate limiting persistente con Redis/KV o una verifica CAPTCHA/Turnstile lato server.
+
+## Gmail App Password
+
+`EMAIL_PASS` non e' la password normale dell'account Gmail. Deve essere una App Password generata da Google dopo aver attivato la verifica in due passaggi sull'account.
+
+Conservare `EMAIL_PASS` solo nelle variabili ambiente locali o della piattaforma di deploy. Non committare `.env.local`, screenshot, log o note contenenti credenziali reali. Se la App Password viene esposta, revocarla subito dall'account Google e generarne una nuova.
+
+## Autenticazione email
+
+Per migliorare recapito e ridurre falsificazioni, configurare i record DNS del dominio usato per la posta:
+
+- SPF: autorizza i server che possono inviare email per il dominio.
+- DKIM: firma crittograficamente le email in uscita.
+- DMARC: definisce cosa fare quando SPF/DKIM falliscono e abilita report di abuso.
+
+Se `EMAIL_USER` e' un indirizzo Gmail personale, Google gestisce parte dell'autenticazione del proprio dominio. Se invece si usa un indirizzo con dominio personalizzato, configurare SPF, DKIM e DMARC nel provider DNS o in Google Workspace prima della produzione.
 
 ## Deploy su Vercel
 
@@ -114,8 +164,9 @@ Se `VITE_CONTACT_API_URL` non e' configurata, il form mantiene un comportamento 
    - Install Command: `npm install`
    - Build Command: `npm run build`
    - Output Directory: `dist`
-6. Aggiungere eventuali variabili ambiente pubbliche, come `VITE_CONTACT_API_URL`, solo se gia' esiste una API contatti.
-7. Avviare il deploy.
+6. In Vercel aprire `Project Settings` > `Environment Variables`.
+7. Aggiungere `EMAIL_USER`, `EMAIL_PASS` ed `EMAIL_TO` negli ambienti necessari, per esempio Production e Preview.
+8. Salvare e avviare un nuovo deploy.
 
 Non serve un `vercel.json` per questa configurazione: Vercel riconosce Vite e pubblica la cartella `dist/`.
 
@@ -126,7 +177,7 @@ Netlify puo' essere usato come target secondario con una configurazione equivale
 - Build command: `npm run build`
 - Publish directory: `dist`
 
-Se si aggiunge `VITE_CONTACT_API_URL`, configurarla nelle environment variables del sito Netlify. Anche su Netlify non inserire credenziali email nel frontend.
+La function `api/send-email.ts` e' pensata per Vercel. Per Netlify serve una function equivalente nel formato previsto da Netlify, mantenendo comunque le credenziali solo lato server.
 
 ## Checklist pre-pubblicazione
 
@@ -135,5 +186,6 @@ Se si aggiunge `VITE_CONTACT_API_URL`, configurarla nelle environment variables 
 - Eseguire `npm run build`.
 - Verificare la build con `npm run preview`.
 - Controllare che `.env.local` non venga committato.
-- Configurare `VITE_CONTACT_API_URL` solo se l'endpoint contatti pubblico esiste.
+- Configurare `EMAIL_USER`, `EMAIL_PASS` ed `EMAIL_TO` su Vercel prima del deploy produzione.
+- Verificare SPF, DKIM e DMARC del dominio email usato in produzione.
 - Tenere tutte le credenziali email esclusivamente lato server.

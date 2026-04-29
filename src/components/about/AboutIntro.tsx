@@ -1,4 +1,5 @@
 import { useLanguage } from '../../i18n/useLanguage'
+import profileImage from '../../assets/images/EA.jpg'
 
 function AboutIntro() {
   const { t } = useLanguage()
@@ -10,6 +11,9 @@ function AboutIntro() {
         <h1>{t.about.hero.title}</h1>
         <p>{t.about.hero.body}</p>
       </div>
+      <figure className="about-hero__media">
+        <img src={profileImage} alt="Enrico Arfini" />
+      </figure>
     </section>
   )
 }

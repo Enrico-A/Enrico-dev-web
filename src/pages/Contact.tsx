@@ -8,6 +8,7 @@ type ContactFormValues = {
   name: string
   email: string
   message: string
+  website: string
   privacy: boolean
 }
 
@@ -25,6 +26,7 @@ function Contact() {
       name: '',
       email: '',
       message: '',
+      website: '',
       privacy: false,
     },
   })
@@ -38,6 +40,7 @@ function Contact() {
         email: values.email,
         subject: t.contact.emailSubject,
         message: values.message,
+        website: values.website,
       })
       setSubmitStatus('success')
       reset()
@@ -79,6 +82,11 @@ function Contact() {
         </aside>
 
         <form className="contact-form card" onSubmit={handleSubmit(onSubmit)} noValidate>
+          <div className="contact-form__honeypot" aria-hidden="true">
+            <label htmlFor="website">Website</label>
+            <input id="website" type="text" tabIndex={-1} autoComplete="off" {...register('website')} />
+          </div>
+
           <div className="contact-form__field">
             <label htmlFor="name">{t.contact.form.name}</label>
             <input

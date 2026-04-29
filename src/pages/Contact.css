@@ -79,8 +79,17 @@
 }
 
 .contact-form {
+  position: relative;
   display: grid;
   gap: var(--space-4);
+}
+
+.contact-form__honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 .contact-form__field {
