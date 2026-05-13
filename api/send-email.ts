@@ -1,5 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import nodemailer from 'nodemailer'
+import { createElement } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
 import MessageMail from './MessageMail'
 
 type ServerlessRequest = IncomingMessage & {
@@ -150,22 +152,15 @@ function isRateLimited(req: ServerlessRequest) {
   return false
 }
 
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
-}
-
 function renderMessageHtml({ name, email, subject, message }: ContactEmailPayload) {
-  const safeName = escapeHtml(name)
-  const safeEmail = escapeHtml(email)
-  const safeSubject = escapeHtml(subject)
-  const safeMessage = escapeHtml(message).replace(/\r?\n/g, '<br />')
-
-  return <MessageMail name={safeName} email={safeEmail} subject={safeSubject} message={safeMessage} />
+  return renderToStaticMarkup(
+    createElement(MessageMail, {
+      name,
+      email,
+      subject,
+      message,
+    }),
+  )
 
   /* return `
     <div style="font-family: Arial, sans-serif; color: #1f2937; line-height: 1.6;">
