@@ -22,7 +22,7 @@ function ValueSection() {
   const { t } = useLanguage()
 
   return (
-    <section className="section home-section">
+    <section className="section home-section home-band home-band--cool">
       <div className="home-section__heading">
         <span className="section-kicker">{t.home.value.kicker}</span>
         <h2>{t.home.value.title}</h2>

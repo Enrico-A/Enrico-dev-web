@@ -20,11 +20,11 @@ function Footer() {
 
         <nav className="site-footer__social" aria-label={t.footer.socialLabel}>
           <a href="https://github.com/enrico-a" target="_blank" rel="noreferrer">
-            <FontAwesomeIcon icon={faGithub} aria-hidden="true" />
+            <FontAwesomeIcon icon={faGithub} className="site-footer__icon" aria-hidden="true" />
             GitHub
           </a>
           <a href="https://www.linkedin.com/in/enrico-arfini/" target="_blank" rel="noreferrer">
-            <FontAwesomeIcon icon={faLinkedin} aria-hidden="true" />
+            <FontAwesomeIcon icon={faLinkedin} className="site-footer__icon" aria-hidden="true" />
             LinkedIn
           </a>
         </nav>

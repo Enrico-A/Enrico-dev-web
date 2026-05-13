@@ -56,6 +56,7 @@
 }
 
 .site-nav__link {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -65,17 +66,56 @@
   font-weight: 700;
   padding: 10px 12px;
   text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.site-nav__link::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  bottom: 7px;
+  left: 12px;
+  height: 2px;
+  border-radius: 999px;
+  background: #069494;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition:
+    transform 0.28s ease,
+    background-color 0.18s ease;
 }
 
 .site-nav__icon {
   width: 1em;
-  color: var(--color-teal-primary);
+  color: #069494;
+  transition: color 0.2s ease;
 }
 
-.site-nav__link:hover,
+.site-nav__link:hover {
+  color: var(--color-orange-accent);
+}
+
+.site-nav__link:hover .site-nav__icon {
+  color: var(--color-orange-accent);
+}
+
+.site-nav__link:hover::after {
+  background: var(--color-orange-accent);
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
 .site-nav__link--active {
-  background: var(--color-surface);
-  color: var(--color-teal-primary);
+  color: #069494;
+}
+
+.site-nav__link--active .site-nav__icon {
+  color: #069494;
+}
+
+.site-nav__link--active::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 .nav-toggle {
@@ -125,7 +165,7 @@
 .language-switch__button:hover,
 .language-switch__button--active {
   background: var(--color-teal-soft);
-  color: var(--color-teal-primary);
+  color: #069494;
 }
 
 .language-switch__flag {
@@ -174,6 +214,7 @@
 }
 
 .site-footer a {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -181,9 +222,41 @@
   color: var(--color-text-secondary);
   font-weight: 700;
   text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.site-footer a::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 7px;
+  left: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: #069494;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition:
+    transform 0.28s ease,
+    background-color 0.18s ease;
+}
+
+.site-footer__icon {
+  color: #069494;
+  transition: color 0.2s ease;
 }
 
 .site-footer a:hover {
+  color: var(--color-orange-accent);
+}
+
+.site-footer a:hover::after {
+  background: var(--color-orange-accent);
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.site-footer a:hover .site-footer__icon {
   color: var(--color-orange-accent);
 }
 

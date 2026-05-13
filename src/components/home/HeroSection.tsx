@@ -7,7 +7,7 @@ function HeroSection() {
   const { t } = useLanguage()
 
   return (
-    <section className="home-hero section">
+    <section className="home-hero section home-band home-band--warm">
       <div className="home-hero__content">
         <div className="home-hero__badges" aria-label={t.home.hero.stackLabel}>
           {primaryStack.map((technology) => (

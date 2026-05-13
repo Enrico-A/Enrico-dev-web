@@ -4,7 +4,7 @@ function TechStack() {
   const { t } = useLanguage()
 
   return (
-    <section className="section home-section tech-preview">
+    <section className="section home-section tech-preview home-band home-band--warm">
       <div className="home-section__heading">
         <span className="section-kicker">{t.home.tech.kicker}</span>
         <h2>{t.home.tech.title}</h2>

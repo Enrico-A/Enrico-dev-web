@@ -10,7 +10,7 @@ import {
   Tailwind,
   Text,
 } from 'react-email'
-import logoMinimal from '../assets/images/logo_minimal.png'
+import logoMinimal from '../src/assets/images/logo_vettoriale.png'
 
 export type ContactEmailPayload = {
   name: string

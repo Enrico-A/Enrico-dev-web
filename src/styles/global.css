@@ -4,7 +4,7 @@
   --color-card: #ffffff;
   --color-text-primary: #111827;
   --color-text-secondary: #5c6674;
-  --color-teal-primary: #0f766e;
+  --color-teal-primary: #069494;
   --color-teal-soft: #e0f2ef;
   --color-orange-accent: #f97316;
   --color-error: #b42318;
@@ -165,7 +165,7 @@ button.button {
 
 .button:hover,
 button.button:hover {
-  background: #0b5f59;
+  background: #057878;
   color: #ffffff;
 }
 

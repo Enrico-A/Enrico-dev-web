@@ -1,5 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import nodemailer from 'nodemailer'
+import MessageMail from './MessageMail'
 
 type ServerlessRequest = IncomingMessage & {
   body?: unknown
@@ -164,7 +165,9 @@ function renderMessageHtml({ name, email, subject, message }: ContactEmailPayloa
   const safeSubject = escapeHtml(subject)
   const safeMessage = escapeHtml(message).replace(/\r?\n/g, '<br />')
 
-  return `
+  return <MessageMail name={safeName} email={safeEmail} subject={safeSubject} message={safeMessage} />
+
+  /* return `
     <div style="font-family: Arial, sans-serif; color: #1f2937; line-height: 1.6;">
       <h1 style="font-size: 22px; margin: 0 0 16px;">Nuovo messaggio dal portfolio</h1>
       <p><strong>Nome:</strong> ${safeName}</p>
@@ -175,7 +178,7 @@ function renderMessageHtml({ name, email, subject, message }: ContactEmailPayloa
         <p style="white-space: normal;">${safeMessage}</p>
       </div>
     </div>
-  `
+  ` */
 }
 
 function renderMessageText({ name, email, subject, message }: ContactEmailPayload) {
@@ -218,8 +221,8 @@ export default async function handler(req: ServerlessRequest, res: ServerlessRes
 
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
+    port: 465,
+    secure: true,
     auth: {
       user: emailUser,
       pass: emailPass,

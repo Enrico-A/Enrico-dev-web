@@ -34,7 +34,7 @@ function FeaturedProjects() {
   const { t } = useLanguage()
 
   return (
-    <section className="section home-section">
+    <section className="section home-section home-band home-band--cool">
       <div className="home-section__heading home-section__heading--split">
         <div>
           <span className="section-kicker">{t.home.featured.kicker}</span>

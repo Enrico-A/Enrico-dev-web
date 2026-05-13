@@ -5,7 +5,7 @@ function CtaSection() {
   const { t } = useLanguage()
 
   return (
-    <section className="section home-cta">
+    <section className="section home-cta home-band home-band--warm">
       <div className="home-cta__content">
         <span className="section-kicker">{t.home.cta.kicker}</span>
         <h2>{t.home.cta.title}</h2>
